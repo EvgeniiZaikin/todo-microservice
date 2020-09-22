@@ -1,3 +1,4 @@
-const { server } = require('./src');
+const { database, server } = require('./src');
 
+database.init();
 server.start();
