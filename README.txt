@@ -4,3 +4,9 @@ Stack:
     - node.js
     - express.js
     - sqlite3.js
+
+Start:
+    - clone repository with project
+    - run  'npm install'
+    - run 'npm run start'
+    - you can send request with something like postman on 'localhost:3032'
