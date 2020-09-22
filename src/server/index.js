@@ -1,5 +1,5 @@
 const express = require('express');
-const { todosRoute } = require('./routes');
+const { todoRoute, todosRoute } = require('./routes');
 
 class Server {
     constructor() {
@@ -7,6 +7,7 @@ class Server {
     }
 
     start() {
+        this.server.use('/api/todo', todoRoute);
         this.server.use('/api/todos', todosRoute);
 
         this.server.get('*', (req, res) => res.send('Hello!'));
