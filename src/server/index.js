@@ -1,4 +1,5 @@
 const express = require('express');
+const { todosRoute } = require('./routes');
 
 class Server {
     constructor() {
@@ -6,7 +7,10 @@ class Server {
     }
 
     start() {
+        this.server.use('/api/todos', todosRoute);
+
         this.server.get('*', (req, res) => res.send('Hello!'));
+
         this.server.listen(3023, error => {
             error && console.log(`Error with starting server: ${ error }`);
         });
