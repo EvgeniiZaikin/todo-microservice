@@ -4,15 +4,9 @@ const router = express.Router();
 const { getToDoList } = require('../../methods');
 
 router.route('/')
-    .get((req, res) => {
-        const text = getToDoList.run();
-        res.send(text)
-    });
-
-router.route('/test')
-    .get((req, res) => {
-        const text = getToDoList.run();
-        res.send(text)
+    .get(async (req, res) => {
+        const result = await getToDoList.run();
+        res.send(result)
     });
 
 module.exports = router;
