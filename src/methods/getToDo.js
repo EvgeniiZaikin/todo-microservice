@@ -1,13 +1,19 @@
 const joi = require('joi');
 const database = require('../database');
 const { getToDo } = require('../database/queries');
-const { responseMessage } = require('../default');
+const { responseMessage, validator } = require('../default');
 
 class GetToDo {
-    async run(todoId) {
-        try {
-            await this.validate(todoId);
+    constructor() {
+        this.schema = joi.object({
+            todoId: joi.number().min(1).required(),
+        });
+    }
 
+    async run(todoId) {
+        const { validate, errorMessage } = await validator.validate({ todoId }, this.schema);
+
+        if (validate) {
             await new Promise(resolve => {
                 database.database.all(getToDo(todoId), [], (error, rows) => {
                     if (error) {
@@ -23,24 +29,12 @@ class GetToDo {
                     resolve();
                 });
             });
-        } catch (error) {
-            console.error(error);
+        } else {
+            console.error(errorMessage);
             responseMessage.setBadResponse();
         }
 
         return responseMessage.getResponse();
-    }
-
-    async validate(todoId) {
-        const schema = joi.object({
-            todoId: joi.number().min(1).required(),
-        });
-
-        try {
-            await schema.validateAsync({ todoId });
-        } catch ({ message }) {
-            throw new Error(`Schema not validate! Message: ${ message }`)
-        }
     }
 }
 
