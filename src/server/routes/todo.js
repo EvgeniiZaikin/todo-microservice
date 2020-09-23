@@ -4,8 +4,9 @@ const router = express.Router();
 const { addToDo, getToDo } = require('../../methods');
 
 router.route('/:id')
-    .get((req, res) => {
-        getToDo.run();
+    .get(async (req, res) => {
+        const result = await getToDo.run(req.params.id);
+        res.send(result);
     });
 
 router.route('/')

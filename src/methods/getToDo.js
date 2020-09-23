@@ -2,16 +2,26 @@ const database = require('../database');
 const { getToDo } = require('../database/queries');
 
 class GetToDo {
-    run() {
-        database.database.all(getToDo(1), [], (error, rows) => {
-            if (error) {
-                console.log(`Error with database query: ${ error.message }`);
-            } else {
-                console.log('ROWS:', rows);
-            }
+    async run(todoId) {
+        let success = true, wrong = false;
+
+        const result = await new Promise(resolve => {
+            database.database.all(getToDo(todoId), [], (error, rows) => {
+                if (error) {
+                    console.error(`Error with database query: ${ error.message }`);
+                    wrong = true;
+                    success = false;
+                    resolve(null);
+                } else if (!rows.length) {
+                    console.warn(`Empty result on query getToDo with todoId = ${ todoId }`);
+                    resolve(null);
+                } else {
+                    resolve(rows[0]);
+                }
+            });
         });
 
-        return `Hello from GetToDo class!`;
+        return { success, wrong, result };
     }
 }
 
