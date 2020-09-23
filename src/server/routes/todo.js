@@ -10,8 +10,9 @@ router.route('/:id')
     });
 
 router.route('/')
-    .post((req, res) => {
-        addToDo.run();
+    .post(async (req, res) => {
+        const result = await addToDo.run(req.body);
+        res.send(result);
     });
 
 module.exports = router;

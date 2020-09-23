@@ -3,7 +3,9 @@ This is test ToDo microservice basic on node.js.
 Stack:
     - node.js
     - express.js
-    - sqlite3
+    - sqlite (sqlite3.js)
+    - body-parser.js
+    - joi.js
 
 Start:
     - clone repository with project

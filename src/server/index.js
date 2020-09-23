@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const { todoRoute, todosRoute } = require('./routes');
 
 class Server {
@@ -7,6 +8,8 @@ class Server {
     }
 
     start() {
+        this.server.use(bodyParser.json());
+
         this.server.use('/api/todo', todoRoute);
         this.server.use('/api/todos', todosRoute);
 
