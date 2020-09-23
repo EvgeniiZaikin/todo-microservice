@@ -1,0 +1,23 @@
+Method getToDoList.
+
+Type: GET.
+Url: `/api/todo/:id`
+Params: id.
+
+Workflow:
+1. Run database request
+2. Return work response
+
+Example params: `/api/todo/1`.
+Success response: `{
+    success: true,
+    wrong: false,
+    result: {
+        "todo_id": 1,
+        "todo_text": "test todo",
+        "todo_done": 0
+    }
+}`.
+Bad response: `{ success: false, wrong: true, result: [] }`.
+
+With error and bad response see microservice's log.

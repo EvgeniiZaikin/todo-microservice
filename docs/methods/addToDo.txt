@@ -1,0 +1,16 @@
+Method addToDoList.
+
+Type: POST.
+Url: `/api/todo`
+Params: object with required key `title` and value type `string` 1 and more symbols.
+
+Workflow:
+1. Validate params
+2. Run database request
+3. Return work response
+
+Example params: `{ title: "test title" }`.
+Success response: `{ success: true, wrong: false, result: [] }`.
+Bad response: `{ success: false, wrong: true, result: [] }`.
+
+With error and bad response see microservice's log.
