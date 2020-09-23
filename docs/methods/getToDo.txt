@@ -5,8 +5,9 @@ Url: `/api/todo/:id`
 Params: id.
 
 Workflow:
-1. Run database request
-2. Return work response
+1. Validate params.
+2. Run database request
+3. Return work response
 
 Example params: `/api/todo/1`.
 Success response: `{

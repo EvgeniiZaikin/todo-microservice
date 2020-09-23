@@ -17,6 +17,7 @@ class Server {
 
         this.server.listen(3023, error => {
             error && console.log(`Error with starting server: ${ error }`);
+            console.log(`Server successfully start!`);
         });
     };
 }

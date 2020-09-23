@@ -7,20 +7,20 @@ class AddToDo {
     async run(data) {
         try {
             await this.validate(data);
+
+            await new Promise(resolve => {
+                database.database.all(addToDo(data.title), [], error => {
+                    if (error) {
+                        console.log(`Error with database query: ${ error.message }`);
+                        responseMessage.setBadResponse();
+                    }
+                    resolve();
+                });
+            });
         } catch (error) {
             console.error(error);
             responseMessage.setBadResponse();
         }
-
-        await new Promise(resolve => {
-            database.database.all(addToDo(data.title), [], error => {
-                if (error) {
-                    console.log(`Error with database query: ${ error.message }`);
-                    responseMessage.setBadResponse();
-                }
-                resolve();
-            });
-        });
 
         return responseMessage.getResponse();
     }
