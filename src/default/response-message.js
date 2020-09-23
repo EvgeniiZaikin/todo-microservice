@@ -1,4 +1,7 @@
 class ResponseMessage {
+    /**
+     * @constructor
+     */
     constructor() {
         this.response = {
             success: true,
@@ -7,6 +10,10 @@ class ResponseMessage {
         };
     }
 
+    /**
+     * @public
+     * set bad result for response
+     */
     setBadResponse() {
         this.response = {
             success: false,
@@ -15,6 +22,11 @@ class ResponseMessage {
         };
     }
 
+    /**
+     * @public
+     * set success result for response
+     * @param { * } result
+     */
     setSuccessResponse(result = []) {
         this.response = {
             success: true,
@@ -23,6 +35,10 @@ class ResponseMessage {
         };
     }
 
+    /**
+     * @public
+     * @return { Object } response
+     */
     getResponse() {
         return this.response;
     }

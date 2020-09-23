@@ -4,12 +4,20 @@ const { addToDo } = require('../database/queries');
 const { responseMessage, validator } = require('../default');
 
 class AddToDo {
+    /**
+     * @constructor
+     */
     constructor() {
         this.schema = joi.object({
             title: joi.string().min(1).required(),
         });
     }
 
+    /**
+     * @public
+     * @param { Object } data
+     * @return { Object } response
+     */
     async run(data) {
         const { validate, errorMessage } = await validator.validate(data, this.schema);
 

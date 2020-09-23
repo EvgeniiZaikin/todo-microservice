@@ -3,6 +3,10 @@ const { getToDoList } = require('../database/queries');
 const { responseMessage } = require('../default');
 
 class GetToDoList {
+    /**
+     * @public
+     * @return { Object } response
+     */
     async run() {
         await new Promise(resolve => {
             database.database.all(getToDoList, [], (error, rows) => {

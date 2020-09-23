@@ -1,4 +1,7 @@
 class Validator {
+    /**
+     * @constructor
+     */
     constructor() {
         this.result = {
             validate: false,
@@ -6,6 +9,13 @@ class Validator {
         };
     }
 
+    /**
+     * @public
+     * allow validate data by schema
+     * @param { Object } data
+     * @param { Object } schema
+     * @return { Object } result of validate
+     */
     async validate(data, schema) {
         try {
             await schema.validateAsync(data);
@@ -17,6 +27,11 @@ class Validator {
         return this._getResult();
     }
 
+    /**
+     * @private
+     * set bad validate
+     * @param { String } errorMessage
+     */
     _setBadValidate(errorMessage) {
         this.result = {
             validate: false,
@@ -24,6 +39,10 @@ class Validator {
         };
     }
 
+    /**
+     * @private
+     * set success validate
+     */
     _setSuccessValidate() {
         this.result = {
             validate: true,
@@ -31,6 +50,10 @@ class Validator {
         };
     }
 
+    /**
+     * @private
+     * @return { Object } result of validate
+     */
     _getResult() {
         return this.result;
     }

@@ -6,6 +6,7 @@ Stack:
     - sqlite (sqlite3.js)
     - body-parser.js
     - joi.js
+    - jsdoc.js
 
 Start:
     - clone repository with project
