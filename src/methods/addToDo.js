@@ -1,31 +1,28 @@
 const joi = require('joi');
 const database = require('../database');
 const { addToDo } = require('../database/queries');
+const { responseMessage } = require('../default');
 
 class AddToDo {
     async run(data) {
-        let success = true, wrong = false;
-
         try {
             await this.validate(data);
         } catch (error) {
             console.error(error);
-            wrong = true;
-            success = false;
+            responseMessage.setBadResponse();
         }
 
         await new Promise(resolve => {
             database.database.all(addToDo(data.title), [], error => {
                 if (error) {
                     console.log(`Error with database query: ${ error.message }`);
-                    wrong = true;
-                    success = false;
+                    responseMessage.setBadResponse();
                 }
                 resolve();
             });
         });
 
-        return { success, wrong };
+        return responseMessage.getResponse();
     }
 
     async validate(data) {
