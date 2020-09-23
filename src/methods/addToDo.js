@@ -1,7 +1,7 @@
 const database = require('../database');
 const { addToDo } = require('../database/queries');
 
-class GetToDoList {
+class AddToDo {
     run() {
         database.database.all(addToDo("testToDo"), [], error => {
             if (error) {
@@ -13,4 +13,4 @@ class GetToDoList {
     }
 }
 
-module.exports = new GetToDoList();
+module.exports = new AddToDo();
