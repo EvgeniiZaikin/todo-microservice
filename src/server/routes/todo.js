@@ -1,7 +1,12 @@
 const express = require('express');
 const router = express.Router();
 
-const { addToDo } = require('../../methods');
+const { addToDo, getToDo } = require('../../methods');
+
+router.route('/:id')
+    .get((req, res) => {
+        getToDo.run();
+    });
 
 router.route('/')
     .post((req, res) => {

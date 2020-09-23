@@ -21,4 +21,13 @@ module.exports = {
             "${ todoText }"
         )
     `,
+
+    getToDo: todoId => `
+        SELECT
+            *
+        FROM
+            todos
+        WHERE
+            todo_id = ${ todoId }
+    `,
 };
