@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node service.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest test.js"
   },
   "author": "Evgenii Zaikin",
   "license": "ISC",
@@ -16,6 +16,9 @@
     "sqlite3": "^5.0.0"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "jest": "^26.4.2",
     "jsdoc": "^3.6.6"
   }
 }

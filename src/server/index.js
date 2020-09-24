@@ -8,6 +8,7 @@ class Server {
      */
     constructor() {
         this.server = express();
+        this.app = null;
     }
 
     /**
@@ -20,7 +21,7 @@ class Server {
         this.server.use('/api/todo', todoRoute);
         this.server.use('/api/todos', todosRoute);
 
-        this.server.listen(3023, error => {
+        this.app = this.server.listen(3023, error => {
             error && console.log(`Error with starting server: ${ error }`);
             console.log(`Server successfully start!`);
         });
@@ -31,7 +32,8 @@ class Server {
      * stop server
      */
     stop() {
-        this.server.close();
+        this.app.close();
+        console.log('Server listening closed');
     }
 }
 
