@@ -15,23 +15,26 @@ class GetToDo {
 
     /**
      * @public
-     * @param { Number } todoId
+     * @param {string} todoId
      * @return { Object } response
      */
     async run(todoId) {
-        const { validate, errorMessage } = await validator.validate({ todoId }, this.schema);
+        const valid = new validator();
+        const { validate, errorMessage } = await valid.validate({ todoId }, this.schema);
+
+        const response = new responseMessage();
 
         if (validate) {
             await new Promise(resolve => {
                 database.database.all(getToDo(todoId), [], (error, rows) => {
                     if (error) {
                         console.error(`Error with database query: ${ error.message }`);
-                        responseMessage.setBadResponse();
+                        response.setBadResponse();
                     } else if (!rows.length) {
                         console.warn(`Empty result on query getToDo with todoId = ${ todoId }`);
-                        responseMessage.setBadResponse();
+                        response.setBadResponse();
                     } else {
-                        responseMessage.setSuccessResponse(rows[0]);
+                        response.setSuccessResponse(rows[0]);
                     }
 
                     resolve();
@@ -39,11 +42,11 @@ class GetToDo {
             });
         } else {
             console.error(errorMessage);
-            responseMessage.setBadResponse();
+            response.setBadResponse();
         }
 
-        return responseMessage.getResponse();
+        return response.getResponse();
     }
 }
 
-module.exports = new GetToDo();
+module.exports = GetToDo;

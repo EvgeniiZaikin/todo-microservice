@@ -8,24 +8,26 @@ class GetToDoList {
      * @return { Object } response
      */
     async run() {
+        const response = new responseMessage();
+
         await new Promise(resolve => {
             database.database.all(getToDoList, [], (error, rows) => {
                 if (error) {
                     console.error(`Error with database query: ${ error.message }`);
-                    responseMessage.setBadResponse();
+                    response.setBadResponse();
                 } else if (!rows.length) {
                     console.warn(`Empty result on query getToDoList`);
-                    responseMessage.setBadResponse();
+                    response.setBadResponse();
                 } else {
-                    responseMessage.setSuccessResponse(rows);
+                    response.setSuccessResponse(rows);
                 }
 
                 resolve();
             });
         });
 
-        return responseMessage.getResponse();
+        return response.getResponse();
     }
 }
 
-module.exports = new GetToDoList();
+module.exports = GetToDoList;

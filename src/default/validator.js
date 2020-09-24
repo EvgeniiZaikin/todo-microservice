@@ -59,4 +59,4 @@ class Validator {
     }
 }
 
-module.exports = new Validator();
+module.exports = Validator;

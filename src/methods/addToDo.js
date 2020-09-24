@@ -19,27 +19,30 @@ class AddToDo {
      * @return { Object } response
      */
     async run(data) {
-        const { validate, errorMessage } = await validator.validate(data, this.schema);
+        const valid = new validator();
+        const { validate, errorMessage } = await valid.validate(data, this.schema);
+
+        const response = new responseMessage();
 
         if (validate) {
             await new Promise(resolve => {
                 database.database.all(addToDo(data.title), [], error => {
                     if (error) {
                         console.log(`Error with database query: ${ error.message }`);
-                        responseMessage.setBadResponse();
+                        response.setBadResponse();
                     } else {
-                        responseMessage.setSuccessResponse();
+                        response.setSuccessResponse();
                     }
                     resolve();
                 });
             });
         } else {
             console.error(errorMessage);
-            responseMessage.setBadResponse();
+            response.setBadResponse();
         }
 
-        return responseMessage.getResponse();
+        return response.getResponse();
     }
 }
 
-module.exports = new AddToDo();
+module.exports = AddToDo;

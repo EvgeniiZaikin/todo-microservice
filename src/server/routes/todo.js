@@ -5,13 +5,15 @@ const { addToDo, getToDo } = require('../../methods');
 
 router.route('/:id')
     .get(async (req, res) => {
-        const result = await getToDo.run(req.params.id);
+        const method = new getToDo();
+        const result = await method.run(req.params.id);
         res.send(result);
     });
 
 router.route('/')
     .post(async (req, res) => {
-        const result = await addToDo.run(req.body);
+        const method = new addToDo();
+        const result = await method.run(req.body);
         res.send(result);
     });
 

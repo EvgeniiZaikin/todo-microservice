@@ -44,4 +44,4 @@ class ResponseMessage {
     }
 }
 
-module.exports = new ResponseMessage();
+module.exports = ResponseMessage;

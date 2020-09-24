@@ -5,7 +5,8 @@ const { getToDoList } = require('../../methods');
 
 router.route('/')
     .get(async (req, res) => {
-        const result = await getToDoList.run();
+        const method = new getToDoList();
+        const result = await method.run();
         res.send(result)
     });
 

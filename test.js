@@ -4,8 +4,9 @@ const app = new server();
 const tst = new tester(app.server);
 
 const { responseMessage } = require('./src/default');
-responseMessage.setBadResponse();
-const badResponseMessage = responseMessage.getResponse()
+const response = new responseMessage();
+response.setBadResponse();
+const badResponseMessage = response.getResponse()
 
 const api = {
     simple: `/api/todo`,
