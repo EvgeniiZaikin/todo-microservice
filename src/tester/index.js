@@ -5,10 +5,10 @@ chai.use(chaiHttp);
 class Tester {
     /**
      * @constructor
+     * @param { Object } server server object
      */
-    constructor(server, database) {
+    constructor(server) {
         this.server = server;
-        this.database = database;
     }
 
     /**
