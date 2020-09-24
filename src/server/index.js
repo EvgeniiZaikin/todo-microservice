@@ -37,4 +37,4 @@ class Server {
     }
 }
 
-module.exports = new Server();
+module.exports = Server;

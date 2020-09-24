@@ -1,5 +1,7 @@
 const { database, server, tester } = require('./src');
-const tst = new tester(server.server);
+
+const app = new server();
+const tst = new tester(app.server);
 
 const { responseMessage } = require('./src/default');
 responseMessage.setBadResponse();
@@ -14,7 +16,7 @@ const api = {
 beforeAll(async done => {
     database.init(true);
     database.createDB();
-    server.start();
+    app.start();
     setTimeout(() => {
         done();
     }, 1500);
@@ -22,7 +24,7 @@ beforeAll(async done => {
 
 afterAll(async done => {
     database.database.close();
-    server.stop();
+    app.stop();
     setTimeout(() => {
         done();
     }, 1500);
