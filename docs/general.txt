@@ -7,6 +7,8 @@ Stack:
     - body-parser.js
     - joi.js
     - jsdoc.js
+    - jest
+    - chai
 
 Start:
     - clone repository with project
@@ -18,3 +20,8 @@ Use:
     - GET `http://localhost:3023/api/todos` - get todos list
     - GET `http://localhost:3023/api/todo/:id` - get current todo by id
     - POST `http://localhost:3023/api/todo` - add new todo with your params
+
+Test:
+    - clone repository with project
+    - run  'npm install'
+    - run 'npm run test'

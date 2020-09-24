@@ -1,7 +1,15 @@
-const chai = require('chai');
-const chaiHttp = require('chai-http');
-chai.use(chaiHttp);
-const { database, server } = require('./src');
+const { database, server, tester } = require('./src');
+const tst = new tester(server.server, database);
+
+const { responseMessage } = require('./src/default');
+responseMessage.setBadResponse();
+const badResponseMessage = responseMessage.getResponse()
+
+const api = {
+    simple: `/api/todo`,
+    simpleWithParams: params => `/api/todo/${ params }`,
+    plural: `/api/todos`,
+};
 
 beforeAll(async done => {
     database.init(true);
@@ -20,95 +28,30 @@ afterAll(async done => {
 });
 
 describe(`API tests`, () => {
-    test(`Add new todo`, done => {
-        chai.request(server.server)
-            .post(`/api/todo`)
-            .send({ title: `test todo` })
-            .end((error, response) => {
-                expect(response.statusCode).toBe(200);
-                // console.log(response.statusCode);
-                done();
-            });
+    tst.testPostCase(`Add new todo`, api.simple, { title: `test todo` }, true, 200);
+
+    tst.testGetCase(`Get current todo`, api.simpleWithParams(1), {
+        success: true,
+        wrong: false,
+        result: { todo_id: 1, todo_text: 'test todo', todo_done: 0 }
     });
 
-    test(`Get current todo`, done => {
-        chai.request(server.server)
-            .get(`/api/todo/1`)
-            .end((error, response) => {
-                expect(response.body).toStrictEqual({
-                    success: true,
-                    wrong: false,
-                    result: { todo_id: 1, todo_text: 'test todo', todo_done: 0 }
-                });
-                done();
-            });
+    tst.testPostCase(`Add new todo`, api.simple, { title: `test #2 todo` }, true, 200);
+
+    tst.testGetCase(`Get todos list`, api.plural, {
+        success: true,
+        wrong: false,
+        result: [
+            { todo_id: 1, todo_text: 'test todo', todo_done: 0 },
+            { todo_id: 2, todo_text: 'test #2 todo', todo_done: 0 }
+        ]
     });
 
-    test(`Add new todo`, done => {
-        chai.request(server.server)
-            .post(`/api/todo`)
-            .send({ title: `test #2 todo` })
-            .end((error, response) => {
-                expect(response.statusCode).toBe(200);
-                // console.log(response.statusCode);
-                done();
-            });
-    });
+    tst.testPostCase(`Wrong (without params.title) add new todo`, api.simple, {}, false, badResponseMessage);
 
-    test(`Get todos list`, done => {
-        chai.request(server.server)
-            .get(`/api/todos`)
-            .end((error, response) => {
-                expect(response.body).toStrictEqual({
-                    success: true,
-                    wrong: false,
-                    result: [
-                        { todo_id: 1, todo_text: 'test todo', todo_done: 0 },
-                        { todo_id: 2, todo_text: 'test #2 todo', todo_done: 0 }
-                    ]
-                });
-                done();
-            });
-    });
+    tst.testPostCase(`Wrong (wrong type params.title) add new todo`, api.simple, {
+        title: 123
+    }, false, badResponseMessage);
 
-    test(`Wrong (without params.title) add new todo`, done => {
-        chai.request(server.server)
-            .post(`/api/todo`)
-            .send({})
-            .end((error, response) => {
-                expect(response.body).toStrictEqual({
-                    success: false,
-                    wrong: true,
-                    result: []
-                });
-                done();
-            });
-    });
-
-    test(`Wrong (wrong type params.title) add new todo`, done => {
-        chai.request(server.server)
-            .post(`/api/todo`)
-            .send({ title: 123 })
-            .end((error, response) => {
-                expect(response.body).toStrictEqual({
-                    success: false,
-                    wrong: true,
-                    result: []
-                });
-                done();
-            });
-    });
-
-    test(`Wrong (wrong type params.title) get current todo`, done => {
-        chai.request(server.server)
-            .get(`/api/todo/true`)
-            .end((error, response) => {
-                expect(response.body).toStrictEqual({
-                    success: false,
-                    wrong: true,
-                    result: []
-                });
-                done();
-            });
-    });
+    tst.testGetCase(`Wrong (wrong type params.title) get current todo`, api.simpleWithParams('true'), badResponseMessage);
 });
